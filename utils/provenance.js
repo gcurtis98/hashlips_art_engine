@@ -7,10 +7,10 @@ const { buildDir } = require(path.join(basePath, "/src/config.js"));
 
 // Read files from the build folder defined in config.
 const metadata = JSON.parse(
-  fs.readFileSync(path.join(buildDir, `/json/_metadata.json`), "utf-8")
+  fs.readFileSync(path.join(buildDir, `/json_reordered/_metadata.json`), "utf-8")
 );
-
 const accumulatedHashString = metadata.sort((a,b) => a.edition - b.edition).reduce((acc, item) => {
+  console.log(item.edition);
   return acc.concat(item.imageHash);
 }, []);
 

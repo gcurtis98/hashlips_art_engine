@@ -187,14 +187,12 @@ const addMetadata = (_dna, _edition, _imgHash) => {
 
 const addAttributes = (_element) => {
   let selectedElement = _element.layer.selectedElement;
-  if (_element.layer.blend != 'multiply' && _element.layer.displayName != 'Hair_Up')
-    // console.log(_element);
-    attributesList.push({
-      trait_type: _element.layer.displayName,
-      value: selectedElement.name,
-    });
-};
-
+  // console.log(_element);
+  attributesList.push({
+    trait_type: _element.layer.displayName,
+    value: selectedElement.name,
+  });
+}
 const loadLayerImg = async (_layer) => {
   try {
     return new Promise(async (resolve) => {
@@ -302,60 +300,60 @@ const createDna = (_layers) => {
   let skip = false;
   //Loop through layers
   _layers.forEach((layer) => {
-    let dlIndex = -1;
+    // let dlIndex = -1;
     //search dependantLayers array, if this layer is a dependant get the index.
-    dependantLayers.forEach(dl => {
-      dl.dependants.forEach(dep => {
-        if (layer.displayName == dep) dlIndex = dependantLayers.findIndex(x => x == dl);
-      })
-    })
-    //If there is a dependant set the value of it's dependancy.
-    if (dlIndex > -1) {
-      let element = layer.elements.find(x => x.name == dependantLayers[dlIndex].value);
-      if (!!element)
-        return randNum.push(`${element.id}:${element.filename}${layer.bypassDNA ? "?bypassDNA=true" : ""}`);
-      else {
-        console.log(dependantLayers[dlIndex].value);
-        element = layer.elements.find(x => x.name == "None");
-        return randNum.push(`${element.id}:${element.filename}${layer.bypassDNA ? "?bypassDNA=true" : ""}`);
-      }
-    }
-    else {
-      var totalWeight = 0;
-      layer.elements.forEach((element) => {
-        totalWeight += element.weight;
-      });
-      // number between 0 - totalWeight
-      let random = Math.floor(Math.random() * totalWeight);
-      for (var i = 0; i < layer.elements.length; i++) {
-        // subtract the current weight from the random weight until we reach a sub zero value.
-        random -= layer.elements[i].weight;
-        if (random < 0) {
-          //if layer is dependancy, set value for dependants
-          let dependancyIndex = dependantLayers.findIndex(x => x.dependancy == layer.displayName)
-          if (dependancyIndex > -1)
-            dependantLayers[dependancyIndex].value = layer.elements[i].name;
+    // dependantLayers.forEach(dl => {
+    //   dl.dependants.forEach(dep => {
+    //     if (layer.displayName == dep) dlIndex = dependantLayers.findIndex(x => x == dl);
+    //   })
+    // })
+    // //If there is a dependant set the value of it's dependancy.
+    // if (dlIndex > -1) {
+    //   let element = layer.elements.find(x => x.name == dependantLayers[dlIndex].value);
+    //   if (!!element)
+    // return randNum.push(`${element.id}:${element.filename}${layer.bypassDNA ? "?bypassDNA=true" : ""}`);
+    // else {
+    //   console.log(dependantLayers[dlIndex].value);
+    //   element = layer.elements.find(x => x.name == "None");
+    //   return randNum.push(`${element.id}:${element.filename}${layer.bypassDNA ? "?bypassDNA=true" : ""}`);
+    // }
+    // }
+    // else {
+    var totalWeight = 0;
+    layer.elements.forEach((element) => {
+      totalWeight += element.weight;
+    });
+    // number between 0 - totalWeight
+    let random = Math.floor(Math.random() * totalWeight);
+    for (var i = 0; i < layer.elements.length; i++) {
+      // subtract the current weight from the random weight until we reach a sub zero value.
+      random -= layer.elements[i].weight;
+      if (random < 0) {
+        //if layer is dependancy, set value for dependants
+        // let dependancyIndex = dependantLayers.findIndex(x => x.dependancy == layer.displayName)
+        // if (dependancyIndex > -1)
+        //   dependantLayers[dependancyIndex].value = layer.elements[i].name;
 
-          //if layer is black list key, concat to array. 
-          let combos = blacklistCombinations.filter(x => x.layer1.trim() == layer.name.trim() && x.trait1 == layer.elements[i].name.trim());
-          if (!!combos) 
-            blCombos = blCombos.concat(combos);
-          
-          let blComboIndex = blCombos.findIndex(x => x.layer2.trim() == layer.name.trim() && x.trait2.trim() == layer.elements[i].name.trim());
-          if (blComboIndex > -1) {
-            skip = true;
-            console.log(blCombos[blComboIndex]);
-            break;
-          }
-          else
-            return randNum.push(
-              `${layer.elements[i].id}:${layer.elements[i].filename}${layer.bypassDNA ? "?bypassDNA=true" : ""
-              }`
-            );
+        //if layer is black list key, concat to array. 
+        let combos = blacklistCombinations.filter(x => x.layer1.trim() == layer.displayName.trim() && x.trait1 == layer.elements[i].name.trim());
+        if (!!combos)
+          blCombos = blCombos.concat(combos);
+
+        let blComboIndex = blCombos.findIndex(x => x.layer2.trim() == layer.displayName.trim() && x.trait2.trim() == layer.elements[i].name.trim());
+        if (blComboIndex > -1) {
+          console.log('blacklisted combo');
+          skip = true;
+          console.log(blCombos[blComboIndex]);
+          break;
         }
+        else
+          return randNum.push(
+            `${layer.elements[i].id}:${layer.elements[i].filename}${layer.bypassDNA ? "?bypassDNA=true" : ""
+            }`
+          );
       }
     }
-  });
+  })
   return skip ? '' : randNum.join(DNA_DELIMITER);
 };
 
@@ -503,10 +501,10 @@ const verifyBlacklist = (layers) => {
   blacklistCombinations.forEach(combination => {
 
     //Check for layer 1
-    let layer1Index = layers.findIndex(x => x.name.trim() == combination.layer1.trim());
+    let layer1Index = layers.findIndex(x => x.displayName.trim() == combination.layer1.trim());
     if (layer1Index > -1) {
       // check  for layer 2
-      let layer2Index = layers.findIndex(x => x.name.trim() == combination.layer2.trim());
+      let layer2Index = layers.findIndex(x => x.displayName.trim() == combination.layer2.trim());
       if (layer2Index > -1) {
         if (layer2Index > layer1Index) {
           //check for traits
@@ -537,6 +535,7 @@ const verifyBlacklist = (layers) => {
 
     } else {
       console.log('Layer 1 not present ' + combination.layer1);
+      console.log(layers);
     }
 
   });

@@ -5,20 +5,17 @@ const fs = require("fs");
 const { buildDir, description, namePrefix} = require(path.join(basePath, "/src/config.js"));
 
 let template = {
-    name: namePrefix + " #",
+    // name: namePrefix + " #",
+    // description: description,
+    name: "Gold Pass #",
     description: description,
-    image: "ipfs://bafybeicgcgbupylqnemvloixjnyyxlues2yhbnr7goonp6tuhh6oybfbvq/pre-reveal.gif",
+    image: "ipfs://bafybeihrjqggg7j4j22od3doa3nbn66abzivjaipnxq6h6a74rcfoib4wu/pass.gif",
     edition: 0,
-    date: 1657951593226,
-    attributes: [
-        {
-            trait_type: "Revealed",
-            value: "No"
-        }
-    ]
+    date: Date.now(),
+
 };
 
-let supply = 2200;
+let supply = 750;
 let startingIndex = 0;
 
 for(i = startingIndex; i < supply + startingIndex; i++ ) {

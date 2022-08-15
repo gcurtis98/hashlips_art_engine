@@ -3,6 +3,7 @@ const { MODE } = require(`${basePath}/constants/blend_mode.js`);
 const { NETWORK } = require(`${basePath}/constants/network.js`);
 const path = require("path");
 const fs = require("fs");
+const { Module } = require("module");
 const buildDir = path.join(basePath, "/build");
 const network = NETWORK.eth;
 
@@ -26,104 +27,138 @@ const baseUri = "ipfs://placeholder";
 // If you have selected Solana then the collection starts from 0 automatically
 const layerConfigurations = [
   {
-    // boys
-    growEditionSizeTo: 1667,
+    //legendaries
+    // growEditionSizeTo: 10,
+    // layersOrder: [{ name: "Legendary" }],
+    //edition 1
+    growEditionSizeTo: 500,
     layersOrder: [
-      { name: "Background" },
-      { name: "Boy_Face", options: { displayName: "Face" } },
-      { name: "Boy_Eyes", options: { displayName: "Eyes" } },
-      { name: "Face Accessory" },
-      {
-        name: "Face Accessory_Multiply", options: {
-          displayName: "Face Accessory_Multiply", blend: MODE.multiply,
-          bypassDNA: true
-        }
-      },
-
-      { name: "Boy_Hair", options: { displayName: "Hair" } },
-      {
-        name: "Boy_Hair_Multiply", options: {
-          displayName: "Hair_Multiply",
-          blend: MODE.multiply,
-          bypassDNA: true
-        }
-      },
-      { name: "Boy_Clothes", options: { displayName: "Clothes" } },
-      {
-        name: "Boy_Clothes_Multiply",
-        options: {
-          displayName: "Clothes_Multiply",
-          blend: MODE.multiply,
-          bypassDNA: true
-        }
-      },
-      { name: "Nose" },
-      { name: "Nose_Multiply", options: { blend: MODE.multiply, bypassDNA: true } },
-      { name: "Mouth" },
-      { name: "Accessory" },
-      { name: "Accessory_Multiply", options: { blend: MODE.multiply, bypassDNA: true } },
-    ],
+      { name: "Background 1", options: { displayName: "Background" } },
+      { name: "Skin 1", options: { displayName: "Skin" } },
+      { name: "Umbrella 1", options: { displayName: "Umbrella" } },
+      { name: "Face Art 1", options: { displayName: "Face Art" } },
+      { name: "Eyes 1", options: { displayName: "Eyes" } },
+      { name: "Earrings 1", options: { displayName: "Earrings" } },
+      { name: "Glasses 1", options: { displayName: "Glasses", blend: MODE.hardLight } },
+      { name: "Hair 1", options: { displayName: "Hair" } },
+      { name: "Headwear 1", options: { displayName: "Headwear" } },
+      { name: "Side Masks 1", options: { displayName: "Side Masks" } },
+      { name: "Magic 1", options: { displayName: "Magic" } },
+      { name: "Weapons 1", options: { displayName: "Weapons" } }
+    ]
   },
-  {
-    //girls
-    growEditionSizeTo: 3333,
-    layersOrder: [
-      { name: "Background" },
-      { name: "Girl_Face", options: { displayName: "Face" } },
-      { name: "Girl_Eyes", options: { displayName: "Eyes" } },
-      { name: "Face Accessory" },
-      {
-        name: "Face Accessory_Multiply", options: {
-          displayName: "Face Accessory_Multiply", blend: MODE.multiply,
-          bypassDNA: true
-        }
-      },
-      { name: "Girl_Hair", options: { displayName: "Hair" } },
+  // {
+  //   growEditionSizeTo: 50,
+  //   layersOrder: [
+  //     { name: "Background 2" },
+  //     { name: "Skin 2", options: { displayName: "Skin" } },
+  //     { name: "Face Art 2", options: { displayName: "Face Art" } },
+  //     { name: "Eyes 2", options: { displayName: "Eyes" } },
+  //     { name: "Mouth 2", options: { displayName: "Mouth" } },
+  //     { name: "Clothing 2", options: { displayName: "Clothing" } }
+  //   ]
+  // }
+  // {
+  //   // boys
+  //   growEditionSizeTo: 50,
+  //   layersOrder: [
+  //     { name: "Background" },
+  //     { name: "Boy_Face", options: { displayName: "Face" } },
+  //     { name: "Boy_Eyes", options: { displayName: "Eyes" } },
+  //     { name: "Face Accessory" },
+  //     {
+  //       name: "Face Accessory_Multiply", options: {
+  //         displayName: "Face Accessory_Multiply", blend: MODE.multiply,
+  //         bypassDNA: true
+  //       }
+  //     },
 
-      {
-        name: "Girl_Hair_Multiply", options: {
-          displayName: "Hair_Multiply",
-          blend: MODE.multiply,
-          bypassDNA: true
-        }
-      },
-      { name: "Girl_Clothes", options: { displayName: "Clothes" } },
-      {
-        name: "Girl_Clothes_Multiply",
-        options: {
-          displayName: "Clothes_Multiply",
-          blend: MODE.multiply,
-          bypassDNA: true
-        }
-      },
-      {
-        name: "Girl_Hair_Up", options: {
-          displayName: "Hair_Up",
-          bypassDNA: true
-        }
-      },
-      { name: "Nose" },
-      { name: "Nose_Multiply", options: { blend: MODE.multiply, bypassDNA: true } },
-      { name: "Mouth" },
-      { name: "Accessory" },
-      { name: "Accessory_Multiply", options: { blend: MODE.multiply, bypassDNA: true } },
-    ],
-  },
+  //     { name: "Boy_Hair", options: { displayName: "Hair" } },
+  //     {
+  //       name: "Boy_Hair_Multiply", options: {
+  //         displayName: "Hair_Multiply",
+  //         blend: MODE.multiply,
+  //         bypassDNA: true
+  //       }
+  //     },
+  //     { name: "Boy_Clothes", options: { displayName: "Clothes" } },
+  //     {
+  //       name: "Boy_Clothes_Multiply",
+  //       options: {
+  //         displayName: "Clothes_Multiply",
+  //         blend: MODE.multiply,
+  //         bypassDNA: true
+  //       }
+  //     },
+  //     { name: "Nose" },
+  //     { name: "Nose_Multiply", options: { blend: MODE.multiply, bypassDNA: true } },
+  //     { name: "Mouth" },
+  //     { name: "Accessory" },
+  //     { name: "Accessory_Multiply", options: { blend: MODE.multiply, bypassDNA: true } },
+  //   ],
+  // },
+  // {
+  //   //girls
+  //   growEditionSizeTo: 100,
+  //   layersOrder: [
+  //     { name: "Background" },
+  //     { name: "Girl_Face", options: { displayName: "Face" } },
+  //     { name: "Girl_Eyes", options: { displayName: "Eyes" } },
+  //     { name: "Face Accessory" },
+  //     {
+  //       name: "Face Accessory_Multiply", options: {
+  //         displayName: "Face Accessory_Multiply", blend: MODE.multiply,
+  //         bypassDNA: true
+  //       }
+  //     },
+  //     { name: "Girl_Hair", options: { displayName: "Hair" } },
+
+  //     {
+  //       name: "Girl_Hair_Multiply", options: {
+  //         displayName: "Hair_Multiply",
+  //         blend: MODE.multiply,
+  //         bypassDNA: true
+  //       }
+  //     },
+  //     { name: "Girl_Clothes", options: { displayName: "Clothes" } },
+  //     {
+  //       name: "Girl_Clothes_Multiply",
+  //       options: {
+  //         displayName: "Clothes_Multiply",
+  //         blend: MODE.multiply,
+  //         bypassDNA: true
+  //       }
+  //     },
+  //     {
+  //       name: "Girl_Hair_Up", options: {
+  //         displayName: "Hair_Up",
+  //         bypassDNA: true
+  //       }
+  //     },
+  //     { name: "Nose" },
+  //     { name: "Nose_Multiply", options: { blend: MODE.multiply, bypassDNA: true } },
+  //     { name: "Mouth" },
+  //     { name: "Accessory" },
+  // { name: "Accessory_Multiply", options: { blend: MODE.multiply, bypassDNA: true } },
+  //   ],
+  // },
 ];
 
 //Trait combinations to blacklist, layer1 should be first layer
 const blacklistCombinations = JSON.parse(fs.readFileSync("src\\Blacklist.json", "utf-8"));
+// const blacklistCombinations = [];
 
 
 
 //Layers that must match
-let dependantLayers = [
-  { dependancy: "Accessory", dependants: ["Accessory_Multiply"], value: "" },
-  { dependancy: "Face Accessory", dependants: ["Face Accessory_Multiply"], value: "" },
-  { dependancy: "Nose", dependants: ["Nose_Multiply"], value: "" },
-  { dependancy: "Hair", dependants: ["Hair_Multiply", "Hair_Up"], value: "" },
-  { dependancy: "Clothes", dependants: ["Clothes_Multiply"], value: "" },
-];
+// let dependantLayers = [
+//   { dependancy: "Accessory", dependants: ["Accessory_Multiply"], value: "" },
+//   { dependancy: "Face Accessory", dependants: ["Face Accessory_Multiply"], value: "" },
+//   { dependancy: "Nose", dependants: ["Nose_Multiply"], value: "" },
+//   { dependancy: "Hair", dependants: ["Hair_Multiply", "Hair_Up"], value: "" },
+//   { dependancy: "Clothes", dependants: ["Clothes_Multiply"], value: "" },
+// ];
+let dependantLayers = [];
 
 const shuffleLayerConfigurations = true;
 
